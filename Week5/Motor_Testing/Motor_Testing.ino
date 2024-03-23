@@ -26,11 +26,36 @@ void loop() {
   //analogWrite(PWMB, 100);
 
   digitalWrite(AIN1, HIGH);
+  digitalWrite(AIN2, LOW);
+
+  delay(5000);
+
   digitalWrite(AIN1, LOW);
+  digitalWrite(AIN2, LOW);
+
   digitalWrite(BIN1, HIGH);
   digitalWrite(BIN2, LOW);
 
   delay(5000);
+
+  digitalWrite(BIN1, LOW);
+  digitalWrite(BIN2, LOW);
+
+  digitalWrite(AIN1, LOW);
+  digitalWrite(AIN2, HIGH);
+
+  delay(5000);
+
+  digitalWrite(AIN1, LOW);
+  digitalWrite(AIN2, LOW);
+
+  digitalWrite(BIN1, LOW);
+  digitalWrite(BIN2, HIGH);
+
+  delay(5000);
+
+  digitalWrite(BIN1, LOW);
+  digitalWrite(BIN2, LOW);
 
   digitalWrite(PWMA, LOW);
   digitalWrite(PWMB, LOW);

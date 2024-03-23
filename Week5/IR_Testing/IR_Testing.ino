@@ -6,9 +6,9 @@
 #define IR4 38
 #define IR5 40
 
-#define Cur 0
+#define Cur 
 
-int currentIR[5] = {32, 34, 36, 38, 40};
+int currentIR[5] = {IR1, IR2, IR3, IR4, IR5};
 
 void setup(){
 
@@ -20,12 +20,27 @@ void setup(){
   pinMode(IR4, INPUT);
   pinMode(IR5, INPUT);
 
+  Serial.begin(9600);
+
+  Serial.println("Start Testing!");
+
 }
 
 void loop(){
   
-  if(digitalRead(currentIR[Cur]) == LOW) digitalWrite(LED, HIGH);
-  else digitalWrite(LED, LOW);
+  for(int i=0; i<5; i++){
+
+    if(digitalRead(currentIR[i]) == LOW){
+
+      Serial.print("IR");
+      Serial.print(i + 1);
+      Serial.println("is good!");
+
+    }
+
+  }
+
+  Serial.println();
 
   delay(500);
 
