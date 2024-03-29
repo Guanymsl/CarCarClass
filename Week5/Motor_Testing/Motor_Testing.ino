@@ -6,6 +6,12 @@
 #define BIN1 5
 #define BIN2 6
 
+#define IR1 32
+#define IR2 34
+#define IR3 36
+#define IR4 38
+#define IR5 40
+
 void setup() {
 
   pinMode(PWMA, OUTPUT);
