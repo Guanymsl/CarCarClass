@@ -40,43 +40,34 @@ def main(mode: int, bt_port: str, team_name: str, server_url: str, maze_file: st
     maze = Maze(maze_file)
 
     while True:
-        select = int(input())
+        select = input()
 
-        if select == 1:
-            node_from = int(input())
+        if select == "BFS1":
+            node_from = int(input("Enter Start Node: "))
             path = maze.BFS(maze.nodes[node_from - 1])
 
-        elif select == 2:
-            node_from = int(input())
-            node_to = int(input())
+        elif select == "BFS2":
+            node_from = int(input("Enter Start Node: "))
+            node_to = int(input("Enter End Node: "))
             path = maze.BFS_2(maze.nodes[node_from - 1], maze.nodes[node_to - 1])
 
-        else:
-            objectivesNumber = int(input("Enter objectives number: "))
+        elif select == "Astar":
+            objectivesNumber = int(input("Enter Objectives Number: "))
             objectives = []
 
             for i in range(objectivesNumber):
-                objectiveIndex = int(input("Enter objective Index: "))
+                objectiveIndex = int(input("Enter Objective Index: "))
                 objectives.append(maze.nodes[objectiveIndex - 1])
 
-            node_from = int(input("Enter start node: "))
+            node_from = int(input("Enter Start Node: "))
 
             path = maze.Astar(maze.nodes[node_from - 1], objectives)
 
+        else:
+            path = [maze.nodes[0]]
+
         actions = maze.getActions(path)
-        step=''
-
-        for action in actions:
-            if action == Action.ADVANCE:
-                step += 'f'
-            elif action == Action.U_TURN:
-                step += 'b'
-            elif action == Action.TURN_RIGHT:
-                    step += 'r'
-            else:
-                step += 'l'
-
-        print(step)
+        maze.actions_to_str(actions)
 
     point = Scoreboard(team_name, server_url)
     # point = ScoreboardFake("your team name", "data/fakeUID.csv") # for local testing
