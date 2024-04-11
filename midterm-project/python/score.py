@@ -8,7 +8,6 @@ import socketio
 
 log = logging.getLogger(__name__)
 
-
 class ScoreboardFake:
     """
     Fake scoreboard. Check uid with fakeUID.csv

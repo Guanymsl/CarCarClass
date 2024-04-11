@@ -8,7 +8,6 @@ log = logging.getLogger(__name__)
 # hint: You may design additional functions to execute the input command,
 # which will be helpful when debugging :)
 
-
 class BTInterface:
     def __init__(self, port: Optional[str] = None):
         log.info("Arduino Bluetooth Connect Program.")
@@ -30,7 +29,8 @@ class BTInterface:
 
     def send_action(self, dirc):
         # TODO : send the action to car
-        return
+
+        return self.bt.serial_write_string(dirc)
 
     def end_process(self):
         self.bt.serial_write_string("e")
