@@ -70,6 +70,11 @@ def main(mode: int, bt_port: str, team_name: str, server_url: str, maze_file: st
 
         interface.end_process()
 
+        while True:
+            if interface.get_UID() != 0:
+                point.add_UID(interface.get_UID().decode('utf-8'))
+
+
     elif mode == "1":
         log.info("Mode 1: Self-testing mode.")
         # TODO: You can write your code to test specific function.

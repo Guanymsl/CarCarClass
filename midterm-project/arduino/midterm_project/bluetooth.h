@@ -33,7 +33,7 @@ BT_CMD ask_BT(){
     BT_CMD message = NOTHING;
     char cmd;
 
-    if (Serial3.available()) {
+    if (Serial3.available()){
         // TODO:
         // 1. get cmd from Serial1(bluetooth serial)
         // 2. link bluetooth message to your own command type
@@ -63,7 +63,7 @@ BT_CMD ask_BT(){
 // can use send_byte alternatively to send msg back
 // (but need to convert to byte type)
 
-void send_msg(const char& msg) {
+void send_msg(const char& msg){
     // TODO:
 
     Serial3.write(msg);
@@ -71,15 +71,15 @@ void send_msg(const char& msg) {
 }  // send_msg
 
 // send UID back through Serial1(bluetooth serial)
-void send_byte(byte* id, byte& idSize) {
+void send_byte(byte* id, byte& idSize){
 
-    for (byte i = 0; i < idSize; i++) {  // Send UID consequently.
+    for (byte i = 0; i < idSize; i++){  // Send UID consequently.
         Serial3.write(id[i]);
     }
 
     #ifdef DEBUG
     Serial.print("Sent id: ");
-    for (byte i = 0; i < idSize; i++) {  // Show UID consequently.
+    for (byte i = 0; i < idSize; i++){  // Show UID consequently.
         if(id[i] < 10) Serial.print('0');
         Serial.print(id[i], HEX);
     }
