@@ -21,7 +21,7 @@ log = logging.getLogger(__name__)
 TEAM_NAME = "PY"
 SERVER_URL = "http://140.112.175.18:5000/"
 MAZE_FILE = "data/maze.csv"
-BT_PORT = ""
+BT_PORT = "/dev/tty.CAR-9"
 
 
 def parse_args():
@@ -44,11 +44,14 @@ def main(mode: int, bt_port: str, team_name: str, server_url: str, maze_file: st
     interface = BTInterface(port=bt_port)
     # TODO : Initialize necessary variables
 
-    interface.start()
+    time.sleep(0.5)
 
     if mode == "0":
+
         log.info("Mode 0: For treasure-hunting")
         # TODO : for treasure-hunting, which encourages you to hunt as many scores as possible
+
+        interface.start()
 
         objectivesNumber = int(input("Enter Objectives Number: "))
         objectives = []
@@ -65,11 +68,13 @@ def main(mode: int, bt_port: str, team_name: str, server_url: str, maze_file: st
 
         interface.send_action(actionStr)
 
+        interface.end_process()
+
     elif mode == "1":
         log.info("Mode 1: Self-testing mode.")
         # TODO: You can write your code to test specific function.
 
-        select = input()
+        select = input("Choose Algorithm: ")
 
         if select == "BFS1":
             node_from = int(input("Enter Start Node: "))
@@ -95,14 +100,15 @@ def main(mode: int, bt_port: str, team_name: str, server_url: str, maze_file: st
         else:
             path = [maze.nodes[0]]
 
-            actions = maze.getActions(path)
-            maze.actions_to_str(actions)
+        actions = maze.getActions(path)
+        maze.actions_to_str(actions)
+        actionStr = maze.actions_to_str(actions)
+
+        print(actionStr)
 
     else:
         log.error("Invalid mode")
         sys.exit(1)
-
-    interface.end_process()
 
 if __name__ == "__main__":
     args = parse_args()

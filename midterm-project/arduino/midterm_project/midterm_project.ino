@@ -81,8 +81,8 @@ void setup(){
 /*=====Import header files=====*/
 #include "RFID.h"
 #include "bluetooth.h"
-#include "./node.h"
-#include "./track.h"
+#include "node.h"
+#include "track.h"
 /*=====Import header files=====*/
 
 /*===========================initialize variables===========================*/
@@ -90,7 +90,8 @@ int motor_speed = 150;  // set your own value for motor power
 int turn_speed = motor_speed / 2;
 bool state = false;     // set state to false to halt the car, set state to true to activate the car
 BT_CMD _cmd = NOTHING;  // enum for bluetooth message, reference in bluetooth.h line 2
-String step;
+String step = "";
+bool reading = false;
 /*===========================initialize variables===========================*/
 
 /*===========================declare function prototypes===========================*/
@@ -112,8 +113,26 @@ void SetState(){
     // 1. Get command from bluetooth
     // 2. Change state if need
 
-    _cmd = ask_BT();
-    state = true;
+    BT_CMD action = ask_BT();
+
+    if(action == START) reading = true;
+
+    while(reading && action != NOTHING){
+
+        if(aciton == FORWARD) step += 'f';
+        else if(aciton == RIGHT) step += 'r';
+        else if(aciton == LEFT) step += 'l';
+        else if(aciton == TURN) step += 'b'
+        else if(action == HALT) step += 's';
+
+    }
+
+    if(action == END){
+
+        reading = false;
+        state = true;
+
+    }
 
 }
 

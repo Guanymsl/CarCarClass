@@ -17,8 +17,14 @@ enum BT_CMD{
     NOTHING,
     // TODO: add your own command type here
 
-    SENDING,
-    RECEIVING
+    START,
+    END,
+
+    FORWARD,
+    RIGHT,
+    LEFT,
+    TURN,
+    HALT
 
 };
 
@@ -38,6 +44,14 @@ BT_CMD ask_BT(){
         Serial.print("cmd : ");
         Serial.println(cmd);
         #endif
+
+        if(cmd == 's') message = START;
+        else if(cmd == 'e') message = END;
+        else if(cmd == 'f') message = FORWARD;
+        else if(cmd == 'r') message = RIGHT;
+        else if(cmd == 'l') message = LEFT;
+        else if(cmd == 'b') message = TURN;
+        else if(cmd == 's') message = HALT;
 
     }
 
@@ -66,6 +80,7 @@ void send_byte(byte* id, byte& idSize) {
     #ifdef DEBUG
     Serial.print("Sent id: ");
     for (byte i = 0; i < idSize; i++) {  // Show UID consequently.
+        if(id[i] < 10) Serial.print('0');
         Serial.print(id[i], HEX);
     }
     Serial.println();
