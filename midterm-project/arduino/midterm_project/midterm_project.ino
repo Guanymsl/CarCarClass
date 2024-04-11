@@ -6,9 +6,6 @@
 // Modify     [2020/03/27 Erik Kuo]
 /***************************************************************************/
 
-#ifndef _MAIN_
-#define _MAIN_
-
 #define DEBUG  // debug flag
 
 // for RFID
@@ -49,7 +46,7 @@ MFRC522 mfrc522(SS_PIN, RST_PIN);  // 建立MFRC522物件
 /*===========================define pin & create module object===========================*/
 
 /*============setup============*/
-void setup() {
+void setup(){
     // bluetooth initialization
     Serial3.begin(9600);
     // Serial window
@@ -74,17 +71,18 @@ void setup() {
     pinMode(IRR1, INPUT);
     pinMode(IRR2, INPUT);
 
-#ifdef DEBUG
+    #ifdef DEBUG
     Serial.println("Start!");
-#endif
+    #endif
+
 }
 /*============setup============*/
 
 /*=====Import header files=====*/
 #include "RFID.h"
 #include "bluetooth.h"
-#include "node.h"
-#include "track.h"
+#include "./node.h"
+#include "./track.h"
 /*=====Import header files=====*/
 
 /*===========================initialize variables===========================*/
@@ -101,20 +99,20 @@ void SetState();  // switch the state
 /*===========================declare function prototypes===========================*/
 
 /*===========================define function===========================*/
-void loop() {
-    if (!state)
-        MotorWriting(0, 0);
-    else
-        Search();
+void loop(){
+
+    if(!state) MotorWriting(0, 0);
+    else Search();
     SetState();
+
 }
 
-void SetState() {
+void SetState(){
     // TODO:
     // 1. Get command from bluetooth
     // 2. Change state if need
 
-    while(Serial3.available() > 0) step = Serial3.readString();
+    _cmd = ask_BT();
     state = true;
 
 }
@@ -127,5 +125,3 @@ void Search() {
 
 }
 /*===========================define function===========================*/
-
-#endif

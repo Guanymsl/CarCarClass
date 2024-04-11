@@ -13,7 +13,7 @@
 #ifndef _TRACK_H_
 #define _TRACK_H_
 
-#include "midterm_project.ino"
+#include "node.h"
 
 /*===========================import variable===========================*/
 int extern motor_speed;
@@ -74,19 +74,11 @@ void tracking() {
 
     // TODO: complete your P/PID tracking code
 
-    int l2 = digitalRead(IRL2);
-    int l1 = digitalRead(IRL1);
+    int l1 = digitalRead(IRL1), l2 = digitalRead(IRL2);
     int m = digitalRead(IRM);
-    int r1 = digitalRead(IRR1);
-    int r2 = digitalRead(IRR2);
+    int r1 = digitalRead(IRR1), r2 = digitalRead(IRR2);
 
-    int cnt = 0;
-
-    if(l2 == 1) cnt++;
-    if(l1 == 1) cnt++;
-    if(m == 1) cnt++;
-    if(r1 == 1) cnt++;
-    if(r2 == 1) cnt++;
+    int cnt = l2 + l1 + m + r1 + r2;
 
     if(cnt == 0 && allBlack == true){
 
@@ -98,14 +90,9 @@ void tracking() {
             else if (step[ind == 's']) Halt();
 
             allBlack = false;
-
             ind++;
 
-        }else{
-
-            Halt();
-
-        }
+        }else Halt();
 
     }else{
 

@@ -9,7 +9,7 @@
 #ifndef _NODE_H_
 #define _NODE_H_
 
-#include "midterm_project.ino"
+#include "track.h"
 
 /*===========================import variable===========================*/
 int extern motor_speed;
@@ -21,63 +21,59 @@ int extern turn_speed;
 
 void Right_Turn(){
 
-  motorWriting(-turn_speed, turn_speed);
-  delay(turn_speed * 8);
+    motorWriting(-turn_speed, turn_speed);
+    delay(turn_speed * 8);
 
-  int t = 0;
+    int t = 0;
 
-  while(digitalRead(IRM) != HIGH && digitalRead(IRL1) != HIGH){
+    while(digitalRead(IRM) != HIGH && digitalRead(IRL1) != HIGH){
 
-    delay(1);
-    t++;
-    if(t >= turn_speed * 12) break;
+        delay(1);
+        t++;
+        if(t >= turn_speed * 12) break;
 
-  }
+    }
 
-  if(t>=turn_speed * 12){
+    if(t>=turn_speed * 12){
 
-    while(digitalRead(IRM) != HIGH && digitalRead(IRR1) != HIGH) motorWriting(turn_speed / 1.5, -turn_speed / 1.5);
+        while(digitalRead(IRM) != HIGH && digitalRead(IRR1) != HIGH) motorWriting(turn_speed / 1.5, -turn_speed / 1.5);
 
-  }
+    }
 
 }
 
 void Left_Turn(){
 
-  motorWriting(turn_speed, -turn_speed);
-  delay(turn_speed * 8);
+    motorWriting(turn_speed, -turn_speed);
+    delay(turn_speed * 8);
 
-  int t = 0;
+    int t = 0;
 
-  while(digitalRead(IRM) != HIGH && digitalRead(IRR1) != HIGH){
+    while(digitalRead(IRM) != HIGH && digitalRead(IRR1) != HIGH){
 
-    delay(1);
-    t++;
-    if(t >= turn_speed * 12) break;
+        delay(1);
+        t++;
+        if(t >= turn_speed * 12) break;
 
-  }
+    }
 
-  if(t>=turn_speed * 12){
+    if(t>=turn_speed * 12){
 
-    while(digitalRead(IRM) != HIGH && digitalRead(IRL1) != HIGH) motorWriting(-turn_speed / 1.5, turn_speed / 1.5);
+        while(digitalRead(IRM) != HIGH && digitalRead(IRL1) != HIGH) motorWriting(-turn_speed / 1.5, turn_speed / 1.5);
 
-  }
+    }
 
 }
 
 void Turn_Around(){
 
-  motorWriting(-turn_speed, turn_speed);
-  delay(turn_speed * 20);
+    motorWriting(-turn_speed, turn_speed);
+    delay(turn_speed * 20);
 
-  while(digitalRead(IRM) != HIGH && digitalRead(IRL1) != HIGH);
-
-}
-
-void Halt(){
-
-  while(true) motorWriting (0, 0);
+    while(digitalRead(IRM) != HIGH && digitalRead(IRL1) != HIGH);
 
 }
+
+void Halt(){ while(true) motorWriting (0, 0); }
 
 #endif
