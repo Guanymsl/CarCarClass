@@ -30,11 +30,9 @@ def parse_args():
     parser.add_argument("mode", help="0: treasure-hunting, 1: self-testing", type=str)
     parser.add_argument("--maze-file", default=MAZE_FILE, help="Maze file", type=str)
     parser.add_argument("--bt-port", default=BT_PORT, help="Bluetooth port", type=str)
-    parser.add_argument(
-        "--team-name", default=TEAM_NAME, help="Your team name", type=str
-    )
+    parser.add_argument("--team-name", default=TEAM_NAME, help="Your team name", type=str)
     parser.add_argument("--server-url", default=SERVER_URL, help="Server URL", type=str)
-    parser.add_argument("--method", help="Algorithm to run", type=str)
+    parser.add_argument("--method", required=True, choices=methods, help="Algorithm to run", type=str)
     return parser.parse_args()
 
 def algorithm(_method: str, _maze: Maze):
@@ -75,26 +73,20 @@ def main(mode: int, bt_port: str, team_name: str, server_url: str, maze_file: st
         log.info("Mode 0: For treasure-hunting")
         # TODO : for treasure-hunting, which encourages you to hunt as many scores as possible
 
-        if method not in methods:
-            log.error("Invalid method")
-            sys.exit(1)
-
         interface.start()
         actionStr = algorithm(method, maze)
+        actionStr += 's'
         interface.send_action(actionStr)
-        interface.end_process()
 
         '''while True:
             if interface.get_UID() != 0:
                 point.add_UID(interface.get_UID().decode('utf-8'))'''
 
+        interface.end_process()
+
     elif mode == "1":
         log.info("Mode 1: Self-testing mode.")
         # TODO: You can write your code to test specific function.
-
-        if method not in methods:
-            log.error("Invalid method")
-            sys.exit(1)
 
         algorithm(method, maze)
 

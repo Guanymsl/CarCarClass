@@ -123,11 +123,11 @@ void SetState(){
         else if(aciton == RIGHT) step += 'r';
         else if(aciton == LEFT) step += 'l';
         else if(aciton == TURN) step += 'b'
-        else if(action == HALT) step += 's';
+        else if(action == HALT) break;
 
     }
 
-    if(action == END){
+    if(action == HALT){
 
         reading = false;
         state = true;

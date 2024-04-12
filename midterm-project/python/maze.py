@@ -38,10 +38,13 @@ class Maze:
 
         for _Node in self.nodes:
             _index = int(_Node.index - 1)
+
             for i in range(4):
                 _successor = self.raw_data[_index][i + 1]
+
                 if not math.isnan(_successor):
                     _Node.set_successor(self.nodes[int(_successor) - 1], i + 1, self.raw_data[_index][i + 5])
+
             self.node_dict[_index] = _Node
 
     def get_start_point(self):
@@ -255,8 +258,8 @@ class Maze:
         log.info(cmds)
         return cmds
 
-    def strategy(self, node: Node):
+    '''def strategy(self, node: Node):
         return self.BFS(node)
 
     def strategy_2(self, node_from: Node, node_to: Node):
-        return self.BFS_2(node_from, node_to)
+        return self.BFS_2(node_from, node_to)'''
