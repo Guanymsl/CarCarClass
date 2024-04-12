@@ -23,6 +23,7 @@ SERVER_URL = "http://140.112.175.18:5000/"
 MAZE_FILE = "data/maze.csv"
 BT_PORT = "/dev/tty.CAR-9"
 
+methods = ["bfs1", "bfs2", "astar"]
 
 def parse_args():
     parser = argparse.ArgumentParser()
@@ -33,10 +34,33 @@ def parse_args():
         "--team-name", default=TEAM_NAME, help="Your team name", type=str
     )
     parser.add_argument("--server-url", default=SERVER_URL, help="Server URL", type=str)
+    parser.add_argument("--method", help="Algorithm to run", type=str)
     return parser.parse_args()
 
+def algorithm(_method: str, _maze: Maze):
 
-def main(mode: int, bt_port: str, team_name: str, server_url: str, maze_file: str):
+    node_from = int(input("Enter Start Node: "))
+
+    if _method == "bfs1":
+        path = _maze.BFS(_maze.nodes[node_from - 1])
+
+    elif _method == "bfs2":
+        node_to = int(input("Enter End Node: "))
+        path = _maze.BFS_2(_maze.nodes[node_from - 1], _maze.nodes[node_to - 1])
+
+    elif _method == "astar":
+        objectives = []
+
+        for node in _maze.nodes:
+            if len(node.successors) == 1:
+                objectives.append(node)
+
+        path = _maze.Astar(_maze.nodes[node_from - 1], objectives)
+
+    actions = _maze.getActions(path)
+    return _maze.actions_to_str(actions)
+
+def main(mode: int, bt_port: str, team_name: str, server_url: str, maze_file: str, method: str):
     maze = Maze(maze_file)
 
     point = Scoreboard(team_name, server_url)
@@ -51,65 +75,28 @@ def main(mode: int, bt_port: str, team_name: str, server_url: str, maze_file: st
         log.info("Mode 0: For treasure-hunting")
         # TODO : for treasure-hunting, which encourages you to hunt as many scores as possible
 
+        if method not in methods:
+            log.error("Invalid method")
+            sys.exit(1)
+
         interface.start()
-
-        objectivesNumber = int(input("Enter Objectives Number: "))
-        objectives = []
-
-        for i in range(objectivesNumber):
-            objectiveIndex = int(input(f"Enter Objective{i + 1} Index: "))
-            objectives.append(maze.nodes[objectiveIndex - 1])
-
-        node_from = int(input("Enter Start Node: "))
-
-        path = maze.Astar(maze.nodes[node_from - 1], objectives)
-        actions = maze.getActions(path)
-        actionStr = maze.actions_to_str(actions)
-
+        actionStr = algorithm(method, maze)
         interface.send_action(actionStr)
-
         interface.end_process()
 
-        while True:
+        '''while True:
             if interface.get_UID() != 0:
-                point.add_UID(interface.get_UID().decode('utf-8'))
-
+                point.add_UID(interface.get_UID().decode('utf-8'))'''
 
     elif mode == "1":
         log.info("Mode 1: Self-testing mode.")
         # TODO: You can write your code to test specific function.
 
-        select = input("Choose Algorithm: ")
+        if method not in methods:
+            log.error("Invalid method")
+            sys.exit(1)
 
-        if select == "BFS1":
-            node_from = int(input("Enter Start Node: "))
-            path = maze.BFS(maze.nodes[node_from - 1])
-
-        elif select == "BFS2":
-            node_from = int(input("Enter Start Node: "))
-            node_to = int(input("Enter End Node: "))
-            path = maze.BFS_2(maze.nodes[node_from - 1], maze.nodes[node_to - 1])
-
-        elif select == "Astar":
-            objectivesNumber = int(input("Enter Objectives Number: "))
-            objectives = []
-
-            for i in range(objectivesNumber):
-                objectiveIndex = int(input("Enter Objective Index: "))
-                objectives.append(maze.nodes[objectiveIndex - 1])
-
-            node_from = int(input("Enter Start Node: "))
-
-            path = maze.Astar(maze.nodes[node_from - 1], objectives)
-
-        else:
-            path = [maze.nodes[0]]
-
-        actions = maze.getActions(path)
-        maze.actions_to_str(actions)
-        actionStr = maze.actions_to_str(actions)
-
-        print(actionStr)
+        algorithm(method, maze)
 
     else:
         log.error("Invalid mode")
