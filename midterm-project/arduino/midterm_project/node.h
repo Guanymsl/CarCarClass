@@ -74,6 +74,6 @@ void Turn_Around(){
 
 }
 
-void Halt(){ while(true) motorWriting (0, 0); }
+void Halt(){ motorWriting (0, 0); }
 
 #endif

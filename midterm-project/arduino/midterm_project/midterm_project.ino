@@ -88,9 +88,9 @@ void setup(){
 /*===========================initialize variables===========================*/
 int motor_speed = 150;  // set your own value for motor power
 int turn_speed = motor_speed / 2;
-bool state = false;     // set state to false to halt the car, set state to true to activate the car
+int state = 0;     // set state to false to halt the car, set state to true to activate the car
 BT_CMD _cmd = NOTHING;  // enum for bluetooth message, reference in bluetooth.h line 2
-String step = "";
+char step = '';
 bool reading = false;
 /*===========================initialize variables===========================*/
 
@@ -102,9 +102,9 @@ void SetState();  // switch the state
 /*===========================define function===========================*/
 void loop(){
 
-    if(!state) MotorWriting(0, 0);
-    else Search();
-    SetState();
+    if(state == 0) MotorWriting(0, 0);
+    if(state != 2) SetState();
+    if(state == 2) Search();
 
 }
 
@@ -115,24 +115,20 @@ void SetState(){
 
     BT_CMD action = ask_BT();
 
-    if(action == START) reading = true;
-
     while(reading && action != NOTHING){
 
-        if(aciton == FORWARD) step += 'f';
-        else if(aciton == RIGHT) step += 'r';
-        else if(aciton == LEFT) step += 'l';
-        else if(aciton == TURN) step += 'b'
-        else if(action == HALT) break;
+        if(aciton == FORWARD) step = 'f';
+        else if(aciton == RIGHT) step = 'r';
+        else if(aciton == LEFT) step = 'l';
+        else if(aciton == TURN) step = 'b';
+        else if(action == HALT) step = 's';
+
+        state = 2;
 
     }
 
-    if(action == HALT){
-
-        reading = false;
-        state = true;
-
-    }
+    if(action == START) reading = true;
+    if(action == END) state = 0, reading = false;
 
 }
 

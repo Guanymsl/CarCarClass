@@ -14,10 +14,11 @@
 #define _TRACK_H_
 
 #include "node.h"
+#include "bluetooth.h"
 
 /*===========================import variable===========================*/
 int extern motor_speed;
-string extern step;
+char extern step;
 /*===========================import variable===========================*/
 
 int L2 = -2, L1 = -1, M = 0, R1 = 1, R2 = 2;
@@ -25,7 +26,6 @@ double Kp = 50, Ki = 0, Kd = 200;
 double lastError = 0, dError = 0 , sumError = 0;
 
 bool allBlack = false;
-int ind = 0;
 
 // Write the voltage to motor.
 void MotorWriting(double vL, double vR) {
@@ -82,17 +82,15 @@ void tracking() {
 
     if(cnt == 0 && allBlack == true){
 
-        if(ind < step.length()){
+        if(step == 'b') Right_Turn();
+        else if(step == 'l') Left_Turn();
+        else if(step == 'r') Turn_Around();
+        else if (step == 's') Halt();
 
-            if(step[ind] == 'b') Right_Turn();
-            else if(step[ind] == 'l') Left_Turn();
-            else if(step[ind] == 'r') Turn_Around();
-            else if (step[ind == 's']) Halt();
-
-            allBlack = false;
-            ind++;
-
-        }else Halt();
+        allBlack = false;
+        step = '';
+        send_msg('g');
+        state = 1;
 
     }else{
 
@@ -106,8 +104,8 @@ void tracking() {
 
         double powerCorrection = Kp * Error + Ki * sumError + Kd * dError;
 
-        double vR = motorInvertor(motor_speed - powerCorrection);
-        double vL = motorInvertor(motor_speed + powerCorrection);
+        double vR = motorInvertor(motor_speed - powerCorrection, true);
+        double vL = motorInvertor(motor_speed + powerCorrection, true);
 
         MotorWriting(vL, vR);
 
