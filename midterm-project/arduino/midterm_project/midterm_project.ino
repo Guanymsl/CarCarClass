@@ -12,7 +12,6 @@
 #include <MFRC522.h>
 #include <SPI.h>
 
-#include <string>
 #include <math.h>
 
 /*===========================define pin & create module object================================*/
@@ -42,13 +41,13 @@
 // RFID, 請按照自己車上的接線寫入腳位
 #define RST 9        // 讀卡機的重置腳位
 #define SS 53        // 晶片選擇腳位
-MFRC522 mfrc522(SS_PIN, RST_PIN);  // 建立MFRC522物件
+MFRC522 mfrc522(SS, RST);  // 建立MFRC522物件
 /*===========================define pin & create module object===========================*/
 
 /*============setup============*/
 void setup(){
     // bluetooth initialization
-    Serial3.begin(9600);
+    Serial1.begin(9600);
     // Serial window
     Serial.begin(9600);
 
@@ -79,6 +78,7 @@ void setup(){
 /*============setup============*/
 
 /*=====Import header files=====*/
+#include "function.h"
 #include "RFID.h"
 #include "bluetooth.h"
 #include "node.h"
@@ -88,9 +88,9 @@ void setup(){
 /*===========================initialize variables===========================*/
 int motor_speed = 150;  // set your own value for motor power
 int turn_speed = motor_speed / 2;
-int state = 0;     // set state to false to halt the car, set state to true to activate the car
+int state = 0;          // set state to false to halt the car, set state to true to activate the car
 BT_CMD _cmd = NOTHING;  // enum for bluetooth message, reference in bluetooth.h line 2
-char step = '';
+char step = NULL;
 bool reading = false;
 /*===========================initialize variables===========================*/
 
@@ -117,10 +117,10 @@ void SetState(){
 
     while(reading && action != NOTHING){
 
-        if(aciton == FORWARD) step = 'f';
-        else if(aciton == RIGHT) step = 'r';
-        else if(aciton == LEFT) step = 'l';
-        else if(aciton == TURN) step = 'b';
+        if(action == FORWARD) step = 'f';
+        else if(action == RIGHT) step = 'r';
+        else if(action == LEFT) step = 'l';
+        else if(action == TURN) step = 'b';
         else if(action == HALT) step = 's';
 
         state = 2;
@@ -128,7 +128,7 @@ void SetState(){
     }
 
     if(action == START) reading = true;
-    if(action == END) state = 0, reading = false;
+    if(action == END) reading = false, state = 0;
 
 }
 
@@ -138,9 +138,9 @@ void Search() {
 
     tracking();
 
-    byte idSize;
-    byte* id;
-    if(id != 0) send_byte(id, idSize);
+    byte _idSize;
+    byte* _id = rfid(_idSize);
+    if(_id != 0) send_byte(_id, _idSize);
 
 }
 /*===========================define function===========================*/

@@ -21,7 +21,7 @@ log = logging.getLogger(__name__)
 TEAM_NAME = "Team 7"
 SERVER_URL = "http://140.112.175.18:5000/"
 MAZE_FILE = "data/maze.csv"
-BT_PORT = "/dev/tty.CAR-9"
+BT_PORT = "/dev/tty.CAR-13"
 
 methods = ["bfs1", "bfs2", "astar"]
 
@@ -83,9 +83,8 @@ def main(mode: int, bt_port: str, team_name: str, server_url: str, maze_file: st
             while True:
                 if interface.get_UID() == 'g':
                     break
-                else:
-                    point.add_UID(interface.get_UID().decode('utf-8'))
-
+                #else:
+                    point.add_UID(interface.get_UID())
 
         interface.end_process()
 

@@ -9,10 +9,7 @@
 #ifndef _NODE_H_
 #define _NODE_H_
 
-#include "track.h"
-
 /*===========================import variable===========================*/
-int extern motor_speed;
 int extern turn_speed;
 /*===========================import variable===========================*/
 
@@ -21,7 +18,7 @@ int extern turn_speed;
 
 void Right_Turn(){
 
-    motorWriting(-turn_speed, turn_speed);
+    MotorWriting(-turn_speed, turn_speed);
     delay(turn_speed * 8);
 
     int t = 0;
@@ -34,9 +31,9 @@ void Right_Turn(){
 
     }
 
-    if(t>=turn_speed * 12){
+    if(t >= turn_speed * 12){
 
-        while(digitalRead(IRM) != HIGH && digitalRead(IRR1) != HIGH) motorWriting(turn_speed / 1.5, -turn_speed / 1.5);
+        while(digitalRead(IRM) != HIGH && digitalRead(IRR1) != HIGH) MotorWriting(turn_speed / 1.5, -turn_speed / 1.5);
 
     }
 
@@ -44,11 +41,10 @@ void Right_Turn(){
 
 void Left_Turn(){
 
-    motorWriting(turn_speed, -turn_speed);
+    MotorWriting(turn_speed, -turn_speed);
     delay(turn_speed * 8);
 
     int t = 0;
-
     while(digitalRead(IRM) != HIGH && digitalRead(IRR1) != HIGH){
 
         delay(1);
@@ -57,9 +53,9 @@ void Left_Turn(){
 
     }
 
-    if(t>=turn_speed * 12){
+    if(t >= turn_speed * 12){
 
-        while(digitalRead(IRM) != HIGH && digitalRead(IRL1) != HIGH) motorWriting(-turn_speed / 1.5, turn_speed / 1.5);
+        while(digitalRead(IRM) != HIGH && digitalRead(IRL1) != HIGH) MotorWriting(-turn_speed / 1.5, turn_speed / 1.5);
 
     }
 
@@ -67,13 +63,13 @@ void Left_Turn(){
 
 void Turn_Around(){
 
-    motorWriting(-turn_speed, turn_speed);
+    MotorWriting(-turn_speed, turn_speed);
     delay(turn_speed * 20);
 
     while(digitalRead(IRM) != HIGH && digitalRead(IRL1) != HIGH);
 
 }
 
-void Halt(){ motorWriting (0, 0); }
+void Halt(){ MotorWriting(0, 0); }
 
 #endif

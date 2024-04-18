@@ -13,12 +13,10 @@
 #ifndef _TRACK_H_
 #define _TRACK_H_
 
-#include "node.h"
-#include "bluetooth.h"
-
 /*===========================import variable===========================*/
 int extern motor_speed;
 char extern step;
+int extern state;
 /*===========================import variable===========================*/
 
 int L2 = -2, L1 = -1, M = 0, R1 = 1, R2 = 2;
@@ -63,9 +61,7 @@ void MotorWriting(double vL, double vR) {
 // Handle negative motor_PWMR value.
 void MotorInverter(int motor, bool& dir) {
     // Hint: the value of motor_PWMR must between 0~255, cannot write negative value.
-
-    return max(min(motor, 255), -255);
-
+    return;
 }  // MotorInverter
 
 // P/PID control Tracking
@@ -80,15 +76,14 @@ void tracking() {
 
     int cnt = l2 + l1 + m + r1 + r2;
 
-    if(cnt == 0 && allBlack == true){
+    if(allBlack == true && cnt < 5){
 
-        if(step == 'b') Right_Turn();
+        if(step == 'r') Right_Turn();
         else if(step == 'l') Left_Turn();
-        else if(step == 'r') Turn_Around();
+        else if(step == 'b') Turn_Around();
         else if (step == 's') Halt();
 
         allBlack = false;
-        step = '';
         send_msg('g');
         state = 1;
 
@@ -104,8 +99,8 @@ void tracking() {
 
         double powerCorrection = Kp * Error + Ki * sumError + Kd * dError;
 
-        double vR = motorInvertor(motor_speed - powerCorrection, true);
-        double vL = motorInvertor(motor_speed + powerCorrection, true);
+        double vR = max(min(motor_speed - powerCorrection, 255), -255);
+        double vL = max(min(motor_speed + powerCorrection, 255), -255);
 
         MotorWriting(vL, vR);
 

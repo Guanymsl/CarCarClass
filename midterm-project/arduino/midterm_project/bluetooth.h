@@ -12,34 +12,20 @@
 #ifndef _BLUETOOTH_H_
 #define _BLUETOOTH_H_
 
-enum BT_CMD{
-
-    NOTHING,
-    // TODO: add your own command type here
-
-    START,
-    END,
-
-    FORWARD,
-    RIGHT,
-    LEFT,
-    TURN,
-    HALT
-
-};
-
 BT_CMD ask_BT(){
 
     BT_CMD message = NOTHING;
     char cmd;
 
-    if (Serial3.available()){
+    if(Serial1.available()){
         // TODO:
         // 1. get cmd from Serial1(bluetooth serial)
         // 2. link bluetooth message to your own command type
 
-        cmd = Serial3.read();
+        Serial.print("here");
 
+        cmd = Serial1.read();
+       
         #ifdef DEBUG
         Serial.print("cmd : ");
         Serial.println(cmd);
@@ -66,7 +52,7 @@ BT_CMD ask_BT(){
 void send_msg(const char& msg){
     // TODO:
 
-    Serial3.write(msg);
+    Serial1.write(msg);
 
 }  // send_msg
 
@@ -74,7 +60,7 @@ void send_msg(const char& msg){
 void send_byte(byte* id, byte& idSize){
 
     for (byte i = 0; i < idSize; i++){  // Send UID consequently.
-        Serial3.write(id[i]);
+        Serial1.write(id[i]);
     }
 
     #ifdef DEBUG
