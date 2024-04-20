@@ -257,9 +257,3 @@ class Maze:
             cmds += cmd[action - 1]
         log.info(cmds)
         return cmds
-
-    '''def strategy(self, node: Node):
-        return self.BFS(node)
-
-    def strategy_2(self, node_from: Node, node_to: Node):
-        return self.BFS_2(node_from, node_to)'''

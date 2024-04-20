@@ -75,16 +75,18 @@ def main(mode: int, bt_port: str, team_name: str, server_url: str, maze_file: st
 
         interface.start()
         actionStr = algorithm(method, maze)
-        actionStr += 's'
+        actionStr += 'h'
 
         for i in range(len(actionStr)):
             interface.send_action(actionStr[i])
 
             while True:
-                if interface.get_UID() == 'g':
-                    break
-                #else:
-                    point.add_UID(interface.get_UID())
+                _uid = interface.get_UID()
+                if _uid != 0:
+                    if chr(int(_uid, 16)) == 'g':
+                        break
+                    else:
+                        point.add_UID(_uid)
 
         interface.end_process()
 

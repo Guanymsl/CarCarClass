@@ -15,7 +15,6 @@
 #define IRR2 40
 
 int L2 = -2, L1 = -1, M = 0, R1 = 1, R2 = 2;
-int cnt = 0;
 
 double Kp = 50, Ki = 0, Kd = 200;
 double lastError = 0, dError = 0 , sumError = 0;
@@ -25,9 +24,9 @@ int turn_speed = motor_speed / 2;
 
 bool allBlack = false;
 
-const int Step_Max = 10;
+const int Step_Max = 5;
 //char step[Step_Max] = {'R', 'T', 'S', 'T', 'L', 'T', 'S', 'T'};
-char step[Step_Max] = {'R', 'L', 'L', 'S', 'T', 'S', 'R', 'R', 'L', 'T'};
+char step[Step_Max] = {'S', 'S', 'L', 'R', 'L'};
 int ind = 0;
 
 void motorWriting(double vR, double vL){
@@ -69,17 +68,12 @@ void Tracing(){
   int r1 = digitalRead(IRR1);
   int r2 = digitalRead(IRR2);
 
-  cnt = 0;
+  int cnt = l2 + l1 + m + r1 + r2;
 
-  if(l2 == 1) cnt++;
-  if(l1 == 1) cnt++;
-  if(m == 1) cnt++;
-  if(r1 == 1) cnt++;
-  if(r2 == 1) cnt++;
+  if(cnt <= 1 && allBlack == true){
+    allBlack = false;
 
-  if(cnt == 0 && allBlack == true){
-
-    if(ind == Step_Max) ind = 0;
+    delay(motor_speed * 0.5);
 
     if(ind < Step_Max){
 
@@ -90,9 +84,7 @@ void Tracing(){
 
       ind++;
 
-      //Right_Turn();
-
-    }
+    }else while(true){ motorWriting(0, 0); }
 
   }else{
 

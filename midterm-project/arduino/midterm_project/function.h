@@ -32,7 +32,7 @@ void Halt();
 
 //track.h
 void MotorWriting(double, double);
-void MotorInverter(int, bool&);
+//void MotorInverter(int, bool&);
 void tracking();
 
 #endif

@@ -117,13 +117,13 @@ void SetState(){
 
     if(_cmd == END) reading = false, state = 0;
 
-    while(reading && _cmd != NOTHING){
+    if(reading && _cmd != NOTHING){
 
         if(_cmd == FORWARD) step = 'f';
         else if(_cmd == RIGHT) step = 'r';
         else if(_cmd == LEFT) step = 'l';
         else if(_cmd == TURN) step = 'b';
-        else if(_cmd == HALT) step = 's';
+        else if(_cmd == HALT) step = 'h';
 
         state = 2;
 

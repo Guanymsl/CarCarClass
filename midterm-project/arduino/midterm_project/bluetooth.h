@@ -35,7 +35,7 @@ BT_CMD ask_BT(){
         else if(cmd == 'r') message = RIGHT;
         else if(cmd == 'l') message = LEFT;
         else if(cmd == 'b') message = TURN;
-        else if(cmd == 's') message = HALT;
+        else if(cmd == 'h') message = HALT;
 
     }
 
