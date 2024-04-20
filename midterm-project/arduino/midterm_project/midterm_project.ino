@@ -113,22 +113,23 @@ void SetState(){
     // 1. Get command from bluetooth
     // 2. Change state if need
 
-    BT_CMD action = ask_BT();
+    _cmd = ask_BT();
 
-    while(reading && action != NOTHING){
+    if(_cmd == END) reading = false, state = 0;
 
-        if(action == FORWARD) step = 'f';
-        else if(action == RIGHT) step = 'r';
-        else if(action == LEFT) step = 'l';
-        else if(action == TURN) step = 'b';
-        else if(action == HALT) step = 's';
+    while(reading && _cmd != NOTHING){
+
+        if(_cmd == FORWARD) step = 'f';
+        else if(_cmd == RIGHT) step = 'r';
+        else if(_cmd == LEFT) step = 'l';
+        else if(_cmd == TURN) step = 'b';
+        else if(_cmd == HALT) step = 's';
 
         state = 2;
 
     }
 
-    if(action == START) reading = true;
-    if(action == END) reading = false, state = 0;
+    if(_cmd == START) reading = true;
 
 }
 

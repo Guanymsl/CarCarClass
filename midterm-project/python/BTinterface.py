@@ -40,4 +40,4 @@ class BTInterface:
 if __name__ == "__main__":
     test = BTInterface()
     test.start()
-    test.end_process()
+    #test.end_process()
