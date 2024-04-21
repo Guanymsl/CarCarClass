@@ -62,7 +62,7 @@ void MotorWriting(double vR, double vL) {
     // Hint: the value of motor_PWMR must between 0~255, cannot write negative value.
     return;
 }  // MotorInverter*/
-             
+
 // P/PID control Tracking
 void tracking() {
     // TODO: find your own parameters!

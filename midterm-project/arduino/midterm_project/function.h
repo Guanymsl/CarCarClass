@@ -18,7 +18,7 @@ enum BT_CMD{
     LEFT,
     TURN,
     HALT
-    
+
 };
 BT_CMD ask_BT();
 void send_msg(const char&);
