@@ -87,6 +87,7 @@ def main(mode: int, bt_port: str, team_name: str, server_url: str, maze_file: st
                         break
                     else:
                         point.add_UID(_uid)
+                        print(point.get_current_score())
 
         interface.end_process()
 

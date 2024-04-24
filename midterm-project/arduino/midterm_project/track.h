@@ -77,8 +77,6 @@ void tracking() {
 
     if(allBlack == true && cnt <= 1){
 
-        delay(motor_speed * 0.5);
-
         if(step == 'r') Right_Turn();
         else if(step == 'l') Left_Turn();
         else if(step == 'b') Turn_Around();
