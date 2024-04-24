@@ -1,16 +1,12 @@
-import csv
 import logging
 import math
+import pandas
+import random
 from enum import IntEnum
 from typing import List
-
-import numpy as np
-import pandas
-
-from node import Direction, Node
-
 from queue import PriorityQueue
-import random
+
+from node import Node
 
 log = logging.getLogger(__name__)
 
@@ -21,17 +17,11 @@ class Action(IntEnum):
     TURN_LEFT = 4
     HALT = 5
 
-
 class Maze:
     def __init__(self, filepath: str):
-        # TODO : read file and implement a data structure you like
-        # For example, when parsing raw_data, you may create several Node objects.
-        # Then you can store these objects into self.nodes.
-        # Finally, add to nd_dict by {key(index): value(corresponding node)}
-
         self.raw_data = pandas.read_csv(filepath).values
         self.nodes = []
-        self.node_dict = dict()  # key: index, value: the correspond node
+        self.node_dict = dict()
 
         for _node in self.raw_data:
             self.nodes.append(Node(_node[0]))
@@ -57,9 +47,6 @@ class Maze:
         return self.node_dict
 
     def BFS(self, node: Node):
-        # TODO : design your data structure here for your algorithm
-        # Tips : return a sequence of nodes from the node to the nearest unexplored deadend
-
         queue = []
         visited = []
         queue.append((node , [node]))
@@ -82,9 +69,6 @@ class Maze:
         return path
 
     def BFS_2(self, node_from: Node, node_to: Node):
-        # TODO : similar to BFS but with fixed start point and end point
-        # Tips : return a sequence of nodes of the shortest path
-
         queue = []
         visited = []
         queue.append((node_from , [node_from]))
@@ -105,9 +89,7 @@ class Maze:
         return path
 
     def Astar(self, node_from: Node, objectives):
-
         def prebfs(start):
-
             queue = []
             visited = []
             _distance = {}
@@ -129,7 +111,6 @@ class Maze:
             return _distance
 
         def Modify(_node, _objectives, _currentH1, _currentH2):
-
             maxDistance = 0
 
             for _objective in _objectives:
@@ -142,7 +123,6 @@ class Maze:
             return (_node, _objectives, _currentH1, _currentH2)
 
         def Heuristic(_currentState):
-
             _node , _objectives , _currentH1 , _currentH2 = _currentState
 
             return distance[_currentH1][_currentH2] + min(distance[_currentH1][_node], distance[_currentH2][_node])
@@ -204,10 +184,6 @@ class Maze:
         return path
 
     def getAction(self, car_dir, node_from: Node, node_to: Node):
-        # TODO : get the car action
-        # Tips : return an action and the next direction of the car if the node_to is the Successor of node_to
-        # If not, print error message and return 0
-
         if node_from.is_successor(node_to):
 
             if car_dir == None:
@@ -237,9 +213,6 @@ class Maze:
         return
 
     def getActions(self, nodes: List[Node]):
-        # TODO : given a sequence of nodes, return the corresponding action sequence
-        # Tips : iterate through the nodes and use getAction() in each iteration
-
         actions = []
         currentDirection = None
 
@@ -250,7 +223,6 @@ class Maze:
         return actions
 
     def actions_to_str(self, actions):
-        # cmds should be a string sequence like "fbrl....", use it as the input of BFS checklist #1
         cmd = "fbrls"
         cmds = ""
         for action in actions:

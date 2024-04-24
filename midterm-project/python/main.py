@@ -1,14 +1,10 @@
 import argparse
 import logging
-import os
 import sys
 import time
 
-import numpy as np
-import pandas
-
 from BTinterface import BTInterface
-from maze import Action, Maze
+from maze import Maze
 from score import ScoreboardServer, ScoreboardFake
 
 logging.basicConfig(
@@ -17,7 +13,6 @@ logging.basicConfig(
 
 log = logging.getLogger(__name__)
 
-# TODO : Fill in the following information
 TEAM_NAME = "Team 7"
 SERVER_URL = "http://140.112.175.18:5000/"
 MAZE_FILE = "data/maze.csv"
@@ -60,18 +55,14 @@ def algorithm(_method: str, _maze: Maze):
 
 def main(mode: int, bt_port: str, team_name: str, server_url: str, maze_file: str, method: str):
     maze = Maze(maze_file)
-
     # point = ScoreboardServer(team_name, server_url)
     point = ScoreboardFake("your team name", "data/fakeUID.csv") # for local testing
     interface = BTInterface(port=bt_port)
-    # TODO : Initialize necessary variables
-
     time.sleep(0.5)
 
     if mode == "0":
 
         log.info("Mode 0: For treasure-hunting")
-        # TODO : for treasure-hunting, which encourages you to hunt as many scores as possible
 
         interface.start()
         actionStr = algorithm(method, maze)
@@ -95,8 +86,6 @@ def main(mode: int, bt_port: str, team_name: str, server_url: str, maze_file: st
 
     elif mode == "1":
         log.info("Mode 1: Self-testing mode.")
-        # TODO: You can write your code to test specific function.
-
         algorithm(method, maze)
 
     else:

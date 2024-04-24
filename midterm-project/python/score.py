@@ -3,34 +3,23 @@ import csv
 import logging
 import re
 from typing import Optional, Tuple, cast
-
 import requests
 import socketio
 
 log = logging.getLogger("scoreboard")
 
-
 class Scoreboard(abc.ABC):
-    """
-    The Scoreboard class connects to the server socket and enables updating score by sending UID.
-    """
 
     @abc.abstractmethod
     def add_UID(self, UID_str: str) -> Tuple[int, float]:
-        """Send {UID_str} to server to update score. Returns (score, time_remaining)."""
         pass
 
     @abc.abstractmethod
     def get_current_score(self) -> Optional[int]:
-        """Fetch current score from server. Returns current score."""
         pass
 
 
 class ScoreboardFake(Scoreboard):
-    """
-    Fake scoreboard. Check uid with fakeUID.csv
-    """
-
     def __init__(self, teamname, filepath):
         self.total_score = 0
         self.team = teamname
@@ -80,10 +69,6 @@ class ScoreboardFake(Scoreboard):
 
 
 class ScoreboardServer(Scoreboard):
-    """
-    The Scoreboard class connects to the server socket and enables updating score by sending UID.
-    """
-
     def __init__(self, teamname: str, host=f"http://localhost:3000", debug=False):
         self.teamname = teamname
         self.ip = host
@@ -91,13 +76,11 @@ class ScoreboardServer(Scoreboard):
         log.info(f"{self.teamname} wants to play!")
         log.info(f"connecting to server......{self.ip}")
 
-        # create socket.io instance and connect to server
         self.socket = socketio.Client(logger=debug, engineio_logger=debug)
         self.socket.register_namespace(TeamNamespace("/team"))
         self.socket.connect(self.ip)
         self.sid = self.socket.get_sid(namespace="/team")
 
-        # start game
         log.info("Game is starting.....")
         self._start_game(self.teamname)
 
@@ -107,7 +90,6 @@ class ScoreboardServer(Scoreboard):
         log.info(res)
 
     def add_UID(self, UID_str: str) -> Tuple[int, float]:
-        """Send {UID_str} to server to update score. Returns nothing."""
         log.debug(f"Adding UID: {UID_str}")
 
         if not isinstance(UID_str, str):

@@ -1,18 +1,11 @@
 import logging
 from time import sleep
-
 from serial import Serial
 from serial.serialutil import SerialException
 
 log = logging.getLogger(__name__)
 
-# these codes are for bluetooth
-# hint: please check the function "sleep". how does it work?
-
 class Bluetooth:
-    """
-    The Bluetooth class is used to connect to the Arduino via Bluetooth.
-    """
 
     def __init__(self):
         self.serial = Serial()

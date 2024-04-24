@@ -61,8 +61,11 @@ void tracking(){
         send_msg('g');
         state = RECEIVE;
 
-    }else if(allBlack == true) MotorWriting(motor_speed + 10, motor_speed);
-    else if(cnt != 0){
+    }else if(allBlack == true){
+
+        MotorWriting(motor_speed + 10, motor_speed);
+
+    }else if(cnt != 0){
 
         if(cnt >= 4 && allBlack == false) allBlack = true;
 

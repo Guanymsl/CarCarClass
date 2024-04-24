@@ -72,7 +72,6 @@ void SetState(){
 void Search(){
 
     tracking();
-
     detecting();
 
 }

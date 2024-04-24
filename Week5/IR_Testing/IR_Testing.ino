@@ -30,18 +30,20 @@ void loop(){
   
   for(int i=0; i<5; i++){
 
-    if(digitalRead(currentIR[i]) == LOW){
+    /*if(digitalRead(currentIR[i]) == LOW){
 
       Serial.print("IR");
       Serial.print(i + 1);
       Serial.println("is good!");
 
-    }
+    }*/
+
+    Serial.println(analogRead(currentIR[i]));
 
   }
 
   Serial.println();
 
-  delay(500);
+  delay(3000);
 
 }

@@ -30,8 +30,6 @@ void Left_Turn(){
     MotorWriting(turn_speed, -turn_speed);
     delay(5625 / turn_speed * 8);
 
-    Serial.print("Here");
-
     int t = 0;
     while(digitalRead(IRM) != HIGH && digitalRead(IRL1) != HIGH){
 
