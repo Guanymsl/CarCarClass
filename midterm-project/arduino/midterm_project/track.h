@@ -1,32 +1,12 @@
-/***************************************************************************/
-// File			      [track.h]
-// Author		      [Erik Kuo]
-// Synopsis		    [Code used for tracking]
-// Functions      [MotorWriting, MotorInverter, tracking]
-// Modify		      [2020/03/27 Erik Kuo]
-/***************************************************************************/
-
-/*if you have no idea how to start*/
-/*check out what you have learned from week 1 & 6*/
-/*feel free to add your own function for convenience*/
-
 #ifndef _TRACK_H_
 #define _TRACK_H_
 
-/*===========================import variable===========================*/
-int extern motor_speed;
-char extern step;
-int extern state;
-/*===========================import variable===========================*/
-
 int L2 = -2, L1 = -1, M = 0, R1 = 1, R2 = 2;
-double Kp = 50, Ki = 0, Kd = 200;
+double Kp = 50, Ki = 0, Kd = 80;
 double lastError = 0, dError = 0 , sumError = 0;
 bool allBlack = false;
 
-// Write the voltage to motor.
-void MotorWriting(double vR, double vL) {
-    // TODO: use TB6612 to control motor voltage & direction
+void MotorWriting(double vR, double vL){
 
     if(vR >= 0){
 
@@ -55,19 +35,9 @@ void MotorWriting(double vR, double vL) {
     analogWrite(PWMR, abs(vR));
     analogWrite(PWML, abs(vL));
 
-}  // MotorWriting
+}
 
-// Handle negative motor_PWMR value.
-/*void MotorInverter(int motor, bool& dir) {
-    // Hint: the value of motor_PWMR must between 0~255, cannot write negative value.
-    return;
-}  // MotorInverter*/
-
-// P/PID control Tracking
-void tracking() {
-    // TODO: find your own parameters!
-
-    // TODO: complete your P/PID tracking code
+void tracking(){
 
     int l1 = digitalRead(IRL1), l2 = digitalRead(IRL2);
     int m = digitalRead(IRM);
@@ -80,15 +50,21 @@ void tracking() {
         if(step == 'r') Right_Turn();
         else if(step == 'l') Left_Turn();
         else if(step == 'b') Turn_Around();
-        else if (step == 'h') Halt();
+        else if(step == 'f') delay(22500 / motor_speed * 0.5);
+        else if(step == 'h') Halt();
+
+        delay(22500 / motor_speed * 0.5);
+
+        lastError = dError = sumError = 0;
 
         allBlack = false;
         send_msg('g');
-        state = 1;
+        state = RECEIVE;
 
-    }else if(cnt != 0){
+    }else if(allBlack == true) MotorWriting(motor_speed + 10, motor_speed);
+    else if(cnt != 0){
 
-        if(cnt == 5 && allBlack == false) allBlack = true;
+        if(cnt >= 4 && allBlack == false) allBlack = true;
 
         double Error = (L2 * l2 + L1 * l1 + M * m + R1 * r1 + R2 * r2) / cnt;
 
@@ -98,14 +74,13 @@ void tracking() {
 
         double powerCorrection = Kp * Error + Ki * sumError + Kd * dError;
 
-        double vR = max(min(motor_speed - powerCorrection, 255), -255);
+        double vR = max(min(motor_speed + 10 - powerCorrection, 255), -255);
         double vL = max(min(motor_speed + powerCorrection, 255), -255);
 
         MotorWriting(vR, vL);
 
     }
-    // end TODO
 
-}  // tracking
+}
 
 #endif

@@ -61,8 +61,8 @@ def algorithm(_method: str, _maze: Maze):
 def main(mode: int, bt_port: str, team_name: str, server_url: str, maze_file: str, method: str):
     maze = Maze(maze_file)
 
-    point = ScoreboardServer(team_name, server_url)
-    # point = ScoreboardFake("your team name", "data/fakeUID.csv") # for local testing
+    # point = ScoreboardServer(team_name, server_url)
+    point = ScoreboardFake("your team name", "data/fakeUID.csv") # for local testing
     interface = BTInterface(port=bt_port)
     # TODO : Initialize necessary variables
 
@@ -75,6 +75,7 @@ def main(mode: int, bt_port: str, team_name: str, server_url: str, maze_file: st
 
         interface.start()
         actionStr = algorithm(method, maze)
+        actionStr += 'b'
         actionStr += 'h'
 
         for i in range(len(actionStr)):
@@ -83,13 +84,14 @@ def main(mode: int, bt_port: str, team_name: str, server_url: str, maze_file: st
             while True:
                 _uid = interface.get_UID()
                 if _uid != 0:
-                    if chr(int(_uid, 16)) == 'g':
+                    if int(_uid, 16) <= 255 and chr(int(_uid, 16)) == 'g':
                         break
                     else:
-                        point.add_UID(_uid)
+                        print(_uid)
+                        point.add_UID(str.strip(_uid)[2:])
                         print(point.get_current_score())
 
-        interface.end_process()
+        #interface.end_process()
 
     elif mode == "1":
         log.info("Mode 1: Self-testing mode.")
