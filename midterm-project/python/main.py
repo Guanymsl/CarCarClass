@@ -15,7 +15,7 @@ log = logging.getLogger(__name__)
 
 TEAM_NAME = "Team 7"
 SERVER_URL = "http://140.112.175.18:5000/"
-MAZE_FILE = "data/maze.csv"
+MAZE_FILE = "data/medium_maze.csv"
 BT_PORT = "/dev/tty.CAR-13"
 
 methods = ["bfs1", "bfs2", "astar"]
@@ -55,8 +55,7 @@ def algorithm(_method: str, _maze: Maze):
 
 def main(mode: int, bt_port: str, team_name: str, server_url: str, maze_file: str, method: str):
     maze = Maze(maze_file)
-    # point = ScoreboardServer(team_name, server_url)
-    point = ScoreboardFake("your team name", "data/fakeUID.csv") # for local testing
+
     interface = BTInterface(port=bt_port)
     time.sleep(0.5)
 
@@ -66,8 +65,10 @@ def main(mode: int, bt_port: str, team_name: str, server_url: str, maze_file: st
 
         interface.start()
         actionStr = algorithm(method, maze)
-        actionStr += 'b'
         actionStr += 'h'
+
+        point = ScoreboardServer(team_name, server_url)
+        # point = ScoreboardFake("your team name", "data/fakeUID.csv") # for local testing
 
         for i in range(len(actionStr)):
             interface.send_action(actionStr[i])
@@ -82,7 +83,7 @@ def main(mode: int, bt_port: str, team_name: str, server_url: str, maze_file: st
                         point.add_UID(str.strip(_uid)[2:])
                         print(point.get_current_score())
 
-        #interface.end_process()
+        interface.end_process()
 
     elif mode == "1":
         log.info("Mode 1: Self-testing mode.")

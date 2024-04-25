@@ -49,8 +49,7 @@ void tracking(){
 
         if(step == 'r') Right_Turn();
         else if(step == 'l') Left_Turn();
-        else if(step == 'b') Turn_Around();
-        else if(step == 'f') delay(22500 / motor_speed * 0.5);
+        else if(step == 'f') delay(22500 / motor_speed * 0.3);
         else if(step == 'h') Halt();
 
         delay(22500 / motor_speed * 0.5);

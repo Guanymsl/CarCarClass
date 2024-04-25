@@ -33,7 +33,12 @@ void detecting(){
 
     byte _idSize;
     byte* _id = rfid(_idSize);
-    if(_id != 0) send_byte(_id, _idSize);
+    if(_id != 0){
+        send_byte(_id, _idSize);
+        Turn_Around();
+        send_msg('g');
+        state = RECEIVE;
+    }
 
 }
 

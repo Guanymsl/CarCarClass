@@ -1,6 +1,6 @@
 #include "function.h"
 
-int motor_speed = 180;
+int motor_speed = 220;
 int turn_speed = motor_speed / 2;
 char step;
 bool reading = false;

@@ -5,10 +5,10 @@ void Right_Turn(){
 
     delay(22500 / motor_speed);
     MotorWriting(-turn_speed, turn_speed);
-    delay(5625 / turn_speed * 8);
+    delay(5625 / turn_speed * 6);
 
     int t = 0;
-    while(digitalRead(IRM) != HIGH && digitalRead(IRR1) != HIGH){
+    while(digitalRead(IRM) != HIGH && digitalRead(IRR1) != HIGH && digitalRead(IRL1) != HIGH){
 
         delay(1);
         t++;
@@ -18,7 +18,7 @@ void Right_Turn(){
 
     if(t >= 5625 / turn_speed * 12){
 
-        while(digitalRead(IRM) != HIGH && digitalRead(IRL1) != HIGH) MotorWriting(turn_speed / 1.5, -turn_speed / 1.5);
+        while(digitalRead(IRM) != HIGH && digitalRead(IRR1) != HIGH && digitalRead(IRL1) != HIGH) MotorWriting(turn_speed / 1.5, -turn_speed / 1.5);
 
     }
 
@@ -28,10 +28,10 @@ void Left_Turn(){
 
     delay(22500 / motor_speed);
     MotorWriting(turn_speed, -turn_speed);
-    delay(5625 / turn_speed * 8);
+    delay(5625 / turn_speed * 6);
 
     int t = 0;
-    while(digitalRead(IRM) != HIGH && digitalRead(IRL1) != HIGH){
+    while(digitalRead(IRM) != HIGH && digitalRead(IRR1) != HIGH && digitalRead(IRL1) != HIGH){
 
         delay(1);
         t++;
@@ -41,7 +41,7 @@ void Left_Turn(){
 
     if(t >= 5625 / turn_speed * 12){
 
-        while(digitalRead(IRM) != HIGH && digitalRead(IRR1) != HIGH) MotorWriting(-turn_speed / 1.5, turn_speed / 1.5);
+        while(digitalRead(IRM) != HIGH && digitalRead(IRR1) != HIGH && digitalRead(IRL1) != HIGH) MotorWriting(-turn_speed / 1.5, turn_speed / 1.5);
 
     }
 
@@ -50,22 +50,22 @@ void Left_Turn(){
 void Turn_Around(){
 
     MotorWriting(-turn_speed, turn_speed);
-    delay(5625 / turn_speed * 12);
+    delay(5625 / turn_speed * 20);
 
-    int t = 0;
-    while(digitalRead(IRM) != HIGH && digitalRead(IRR1) != HIGH){
+    /*int t = 0;*/
+    while(digitalRead(IRM) != HIGH && digitalRead(IRR1) != HIGH && digitalRead(IRL1) != HIGH){
 
-        delay(1);
+        /*delay(1);
         t++;
-        if(t >= 5625 / turn_speed * 24) break;
+        if(t >= 5625 / turn_speed * 24) break;*/
 
     }
 
-    if(t >= 5625 / turn_speed * 24){
+    /*if(t >= 5625 / turn_speed * 24){
 
         while(digitalRead(IRM) != HIGH && digitalRead(IRL1) != HIGH) MotorWriting(turn_speed / 1.5, -turn_speed / 1.5);
 
-    }
+    }*/
 
 }
 
