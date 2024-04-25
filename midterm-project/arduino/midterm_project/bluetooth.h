@@ -45,4 +45,11 @@ void send_byte(byte* id, byte& idSize){
 
 }
 
+void get_command(){
+
+    send_msg('g');
+    state = RECEIVE;
+
+}
+
 #endif

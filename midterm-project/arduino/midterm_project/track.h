@@ -2,7 +2,7 @@
 #define _TRACK_H_
 
 int L2 = -2, L1 = -1, M = 0, R1 = 1, R2 = 2;
-double Kp = 50, Ki = 0, Kd = 80;
+double Kp = 50, Ki = 0, Kd = 100;
 double lastError = 0, dError = 0 , sumError = 0;
 bool allBlack = false;
 
@@ -47,18 +47,18 @@ void tracking(){
 
     if(allBlack == true && cnt <= 1){
 
-        if(step == 'r') Right_Turn();
-        else if(step == 'l') Left_Turn();
+        if(step == 'r') Turn('r');
+        else if(step == 'l') Turn('l');
         else if(step == 'f') delay(22500 / motor_speed * 0.3);
+        else if(step == 'b') Turn_Around();
         else if(step == 'h') Halt();
 
-        delay(22500 / motor_speed * 0.5);
+        delay(22500 / motor_speed * 0.1);
 
         lastError = dError = sumError = 0;
 
         allBlack = false;
-        send_msg('g');
-        state = RECEIVE;
+        get_command();
 
     }else if(allBlack == true){
 

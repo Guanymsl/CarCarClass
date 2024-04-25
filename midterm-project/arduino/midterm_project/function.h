@@ -56,10 +56,10 @@ enum BT_CMD{
 BT_CMD ask_BT();
 void send_msg(const char&);
 void send_byte(byte*, byte&);
+void get_command();
 
 //node.h
-void Right_Turn();
-void Left_Turn();
+void Turn(char);
 void Turn_Around();
 void Halt();
 
