@@ -17,7 +17,7 @@ TEAM_NAME = "IR超爛"
 SERVER_URL = "http://140.112.175.18:5000/"
 MAZE_FILE = "data/medium_maze.csv"
 BT_PORT = "/dev/tty.CAR-13"
-ASTAR = "astar"
+METHOD = "astar"
 
 methods = ["bfs1", "bfs2", "astar"]
 
@@ -28,7 +28,7 @@ def parse_args():
     parser.add_argument("--bt-port", default=BT_PORT, help="Bluetooth port", type=str)
     parser.add_argument("--team-name", default=TEAM_NAME, help="Your team name", type=str)
     parser.add_argument("--server-url", default=SERVER_URL, help="Server URL", type=str)
-    parser.add_argument("--method", default=ASTAR, choices=methods, help="Algorithm to run", type=str)
+    parser.add_argument("--method", default=METHOD, choices=methods, help="Algorithm to run", type=str)
     return parser.parse_args()
 
 def algorithm(_method: str, _maze: Maze):
