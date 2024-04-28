@@ -73,11 +73,13 @@ def main(mode: int, bt_port: str, team_name: str, server_url: str, maze_file: st
 
         for i in range(len(actionStr)):
             interface.send_action(actionStr[i])
+            print(f"Next action: {actionStr[i]}")
 
             while True:
                 _uid = interface.get_UID()
                 if _uid != 0:
                     if int(_uid, 16) <= 255 and chr(int(_uid, 16)) == 'g':
+                        print("Arduino waiting for next action...")
                         break
                     else:
                         print(_uid)
