@@ -76,7 +76,7 @@ void tracking(){
 
         double powerCorrection = Kp * Error + Ki * sumError + Kd * dError;
 
-        double vR = max(min(motor_speed + 10 - powerCorrection, 255), -255);
+        double vR = max(min(motor_speed + 20 - powerCorrection, 255), -255);
         double vL = max(min(motor_speed + powerCorrection, 255), -255);
 
         MotorWriting(vR, vL);

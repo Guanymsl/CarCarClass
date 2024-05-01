@@ -13,9 +13,9 @@ logging.basicConfig(
 
 log = logging.getLogger(__name__)
 
-TEAM_NAME = "IR超爛"
+TEAM_NAME = "W3G7"
 SERVER_URL = "http://140.112.175.18:5000/"
-MAZE_FILE = "data/medium_maze.csv"
+MAZE_FILE = "data/big_maze_112.csv"
 BT_PORT = "/dev/tty.CAR-13"
 METHOD = "astar"
 
@@ -45,11 +45,15 @@ def algorithm(_method: str, _maze: Maze):
     elif _method == "astar":
         objectives = []
 
+        Max = 0
+
         for node in _maze.nodes:
             if len(node.successors) == 1:
                 objectives.append(node)
+                Max = max(node.index, Max)
 
-        path = _maze.Astar(_maze.nodes[node_from - 1], objectives)
+        path = _maze.BFS_2(_maze.nodes[node_from - 1], _maze.nodes[int(Max - 1)])
+        path += _maze.Astar(_maze.nodes[int(Max - 1)], objectives)[1:]
 
     actions = _maze.getActions(path)
     return _maze.actions_to_str(actions)
@@ -83,7 +87,10 @@ def main(mode: int, bt_port: str, team_name: str, server_url: str, maze_file: st
                         break
                     else:
                         print(_uid)
-                        point.add_UID(str.strip(_uid)[2:])
+                        if len(str.strip(_uid)[2:]) == 8 :
+                            point.add_UID(str.strip(_uid)[2:])
+                        else:
+                            point.add_UID("0" + str.strip(_uid)[2:])
                         print(point.get_current_score())
 
         interface.end_process()
