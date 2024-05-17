@@ -2,3 +2,5 @@
 **/*.MOV
 **/*.mp4
 **/*.mov
+**/*.caffemodel
+**/*.prototxt
