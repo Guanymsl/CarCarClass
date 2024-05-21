@@ -9,7 +9,7 @@ from imutils.video import WebcamVideoStream
 PROTOTXT = "deploy.prototxt"
 CAFFEMODEL = "res10_300x300_ssd_iter_140000.caffemodel"
 
-if not exists(f".\{PROTOTXT}") or not exists(f".\{CAFFEMODEL}"):
+if not exists(f"./{PROTOTXT}") or not exists(f"./{CAFFEMODEL}"):
     urlretrieve(f"https://raw.githubusercontent.com/opencv/opencv/master/samples/dnn/face_detector/{PROTOTXT}", PROTOTXT)
     urlretrieve(f"https://raw.githubusercontent.com/opencv/opencv_3rdparty/dnn_samples_face_detector_20170830/{CAFFEMODEL}", CAFFEMODEL)
 
