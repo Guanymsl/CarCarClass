@@ -37,18 +37,19 @@ def detect(img, min_confidence=0.5):
     return rects
 
 def main():
-    vs = WebcamVideoStream().start()
+    vs = cv2.VideoCapture(0)
     time.sleep(2.0)
 
     while True:
-        frame = vs.read()
-        rects = detect(frame, 0.5)
+        ret, frame = vs.read()
+        if ret:
+            rects = detect(frame, 0.5)
 
-        for rect in rects:
-            (x, y, w, h) = rect
-            cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
+            for rect in rects:
+                (x, y, w, h) = rect
+                cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
 
-        cv2.imshow("Frame", frame)
+            cv2.imshow("Frame", frame)
 
         key = cv2.waitKey(1) & 0xff
         if key == ord('q'):
