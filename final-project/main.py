@@ -3,6 +3,8 @@ import cv2
 
 from detect import faceDetection
 from model import modify
+from motor import mclose
+from screw import sclose
 
 def main() -> None:
     cap = cv2.VideoCapture(0)
@@ -27,6 +29,8 @@ def main() -> None:
         time.sleep(5)
 
     cap.release()
+    mclose()
+    sclose()
 
 if __name__ == "__main__":
     main()
