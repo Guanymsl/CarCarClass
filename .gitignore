@@ -6,3 +6,4 @@
 **/*.prototxt
 **/*.xml
 **/*.dat
+**/*.cpython-312.pyc
