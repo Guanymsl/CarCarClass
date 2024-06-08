@@ -1,5 +1,6 @@
 import time
 import cv2
+import os
 import numpy as np
 import mediapipe as mp
 
@@ -9,11 +10,13 @@ from urllib.request import urlretrieve
 from model import transform, update
 
 #Model for face detection
+if not os.path.exists('./data'):
+    os.makedirs('./data')
 PROTOTXT = "deploy.prototxt"
 CAFFEMODEL = "res10_300x300_ssd_iter_140000.caffemodel"
 if not exists(f"./data/{PROTOTXT}") or not exists(f"./data/{CAFFEMODEL}"):
-    urlretrieve(f"https://raw.githubusercontent.com/opencv/opencv/master/samples/dnn/face_detector/{PROTOTXT}", PROTOTXT)
-    urlretrieve(f"https://raw.githubusercontent.com/opencv/opencv_3rdparty/dnn_samples_face_detector_20170830/{CAFFEMODEL}", CAFFEMODEL)
+    urlretrieve(f"https://raw.githubusercontent.com/opencv/opencv/master/samples/dnn/face_detector/{PROTOTXT}", f"./data/{PROTOTXT}")
+    urlretrieve(f"https://raw.githubusercontent.com/opencv/opencv_3rdparty/dnn_samples_face_detector_20170830/{CAFFEMODEL}", f"./data/{CAFFEMODEL}")
 net = cv2.dnn.readNetFromCaffe(prototxt = f"./data/{PROTOTXT}", caffeModel = f"./data/{CAFFEMODEL}")
 
 #Model for eye detection
@@ -67,7 +70,10 @@ def detectFeature(faceRoi: np.ndarray) -> tuple[bool, float, float]:
             leftEyeCenter = getCenter(leftEye, faceRoi.shape)
             rightEyeCenter = getCenter(rightEye, faceRoi.shape)
 
-            if np.abs(leftEyeCenter[1] - rightEyeCenter[1]) > 80 or np.abs(leftEyeCenter[2] - rightEyeCenter[2]) > 30:
+            print(leftEyeCenter)
+            print(rightEyeCenter)
+
+            if np.abs(leftEyeCenter[1] - rightEyeCenter[1]) > 50 or np.abs(leftEyeCenter[2] - rightEyeCenter[2]) > 15:
                 return False, None, None
 
             return True, leftEyeCenter[2], rightEyeCenter[2]
@@ -99,9 +105,14 @@ def faceDetection(_cap, _cnt: int, _curAngle: tuple[float, float]) -> tuple[int,
         centers = np.array([(x + 0.5 * w, y + 0.5 * h) for (x, y, w, h) in rects])
         xCenter = frame.shape[1] / 2
         yCenter = frame.shape[0] / 2
-        distances = np.abs(centers[:, 0] - xCenter)
+        
+        print(xCenter)
+        print(yCenter)
 
-        if min(distances) > 300:
+        distances = np.abs(centers[:, 0] - xCenter)
+        
+        print(distances)
+        if min(distances) > 150:
             ff += 1
             continue
 

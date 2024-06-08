@@ -4,7 +4,15 @@ import numpy as np
 import mediapipe as mp
 from imutils.video import WebcamVideoStream
 
-face_net = cv2.dnn.readNetFromCaffe("./deploy.prototxt", "./res10_300x300_ssd_iter_140000.caffemodel")
+from os.path import exists
+from urllib.request import urlretrieve
+
+PROTOTXT = "deploy.prototxt"
+CAFFEMODEL = "res10_300x300_ssd_iter_140000.caffemodel"
+if not exists(f"./{PROTOTXT}") or not exists(f"./{CAFFEMODEL}"):
+    urlretrieve(f"https://raw.githubusercontent.com/opencv/opencv/master/samples/dnn/face_detector/{PROTOTXT}", PROTOTXT)
+    urlretrieve(f"https://raw.githubusercontent.com/opencv/opencv_3rdparty/dnn_samples_face_detector_20170830/{CAFFEMODEL}", CAFFEMODEL)
+face_net = cv2.dnn.readNetFromCaffe(prototxt = f"./{PROTOTXT}", caffeModel = f"./{CAFFEMODEL}")
 
 mp_face_mesh = mp.solutions.face_mesh
 face_mesh = mp_face_mesh.FaceMesh(static_image_mode=False, max_num_faces=1, min_detection_confidence=0.5)
