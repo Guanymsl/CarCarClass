@@ -11,11 +11,11 @@ def main() -> None:
     if not cap.isOpened():
         print("Could not open webcam!")
         return
-
+    
     cnt = 0
     curAngle = (0, 0)
     modify((0, 0), (0, 0))
-
+        
     time.sleep(3)
     print(f"Current Angle: {curAngle}")
 

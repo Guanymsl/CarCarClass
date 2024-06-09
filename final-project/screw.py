@@ -1,12 +1,11 @@
 import numpy as np
 from gpiozero import Servo
 
-SSERVOPIN = 18
+SSERVOPIN = 27
 sservo = Servo(SSERVOPIN)
-curX = 0
 
 def setAngle(_dx) -> None:
-    curX += _dx
+    pass
 
 def getX(_angle) -> float:
     return 15 - np.sqrt(225 - 400 * np.sin(np.radians(_angle)))
@@ -17,4 +16,4 @@ def screwMotorControl(_angleI, _angleF) -> None:
 
 def sclose() -> None:
     setAngle(0)
-    sservo.detach()
+    sservo.close()
