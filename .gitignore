@@ -6,4 +6,6 @@
 **/*.prototxt
 **/*.xml
 **/*.dat
+**/*.cpython-311.pyc
 **/*.cpython-312.pyc
+**/__pycache__/
