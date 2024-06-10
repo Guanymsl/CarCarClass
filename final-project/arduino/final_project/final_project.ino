@@ -11,15 +11,15 @@ double getX(double _angle){ return 15 - sqrt(225 - 400 * sin(radians(_angle))); 
 void screwControl(double _angleI, double _angleF){
 
     double dx = getX(_angleF) - getX(_angleI);
-    dx = max(min(curX + dx, 15), 0) - curX;
+    dx = max(min(curX + dx, 12), 0) - curX;
     curX += dx;
 
     if(dx > 0){
         sServo.writeMicroseconds(1750);
-        delay(1000 * dx / PI);
+        delay(430 * dx / PI);
     }else{
         sServo.writeMicroseconds(1250);
-        delay(1000 * -dx / PI);
+        delay(400 * -dx / PI);
     }
 
     sServo.writeMicroseconds(1500);
