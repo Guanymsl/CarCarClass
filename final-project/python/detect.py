@@ -105,13 +105,9 @@ def faceDetection(_cap, _cnt: int, _curAngle: tuple[float, float]) -> tuple[int,
         centers = np.array([(x + 0.5 * w, y + 0.5 * h) for (x, y, w, h) in rects])
         xCenter = frame.shape[1] / 2
         yCenter = frame.shape[0] / 2
-        
-        print(xCenter)
-        print(yCenter)
 
         distances = np.abs(centers[:, 0] - xCenter)
-        
-        print(distances)
+
         if min(distances) > 150:
             ff += 1
             continue

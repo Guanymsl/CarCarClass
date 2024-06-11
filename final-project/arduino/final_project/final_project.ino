@@ -19,7 +19,7 @@ void screwControl(double _angleI, double _angleF){
         delay(430 * dx / PI);
     }else{
         sServo.writeMicroseconds(1250);
-        delay(400 * -dx / PI);
+        delay(380 * -dx / PI);
     }
 
     sServo.writeMicroseconds(1500);
