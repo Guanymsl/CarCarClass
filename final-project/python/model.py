@@ -1,17 +1,9 @@
-def transform(dist: float, width: float) -> float:
-    return (dist - 1.5 * width) / 10
+def transform(dist: float, width: float) -> tuple[float, float]:
+    return (-dist / 3, (width - 30))
 
-def update(_angle: float, _curAngle: tuple[float, float]) -> tuple[float, float]:
-    if _angle >= 0:
-        sAngle = min(_curAngle[0] + _angle, 30)
-        mAngle = max(min(_curAngle[1] - max(0, _curAngle[0] + _angle - 30), 45), sAngle)
-
-    else:
-        mAngle = min(_curAngle[1] - _angle, 45)
-        sAngle = max(min(_curAngle[0] - max(0, _curAngle[1] - _angle - 45), 30 - mAngle), 0)
-
-    if abs(sAngle - _curAngle[0]) <= 3 and abs(mAngle - _curAngle[1]) <= 3:
-        return _curAngle
+def update(_angle: tuple[float,float], _curAngle: tuple[float, float]) -> tuple[float, float]:
+    sAngle = min(max(_curAngle[0] + _angle[0], 0), 30)
+    mAngle = min(max(_curAngle[1] + sAngle + _angle[1], sAngle), sAngle + 15)
 
     return sAngle, mAngle
 
